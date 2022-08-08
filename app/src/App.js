@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 
 // You can split your components
 import Editor from './Editor'
@@ -16,8 +16,8 @@ class App extends Component {
         </header>
         <Editor />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
