@@ -1,10 +1,10 @@
 import Dragbox from './Dragbox'
 
-export default function Table() {
+export default function Table({ id, component }) {
   return (
-    <Dragbox type="table">
-      <div className="overflow-auto bg-red-100 w-fit">
-        <table className="table-auto border rounded-lg border-slate-300 border-spacing-2 w-full">
+    <Dragbox {...{ id, component }}>
+      <div className="w-fit">
+        <table className="table-auto overflow-auto border rounded-lg border-slate-300 border-spacing-2 w-full">
           <thead className="border">
             <tr className="odd:bg-white even:bg-gray-100 p-4">
               <th className="text-left py-2 px-4">id</th>

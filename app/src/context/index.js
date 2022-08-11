@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
+import useLocalStorage from '../database/useLocalStorage'
 
-const AppContext = React.createContext()
+export const DatabaseContext = React.createContext()
 
-const Provider = () => {
-  const [state, setState] = useState()
+export function DatabaseProvider({ children }) {
+  const [components, setComponents] = useLocalStorage('components', {})
+
+  return <DatabaseContext.Provider value={[components, setComponents]}>{children}</DatabaseContext.Provider>
 }

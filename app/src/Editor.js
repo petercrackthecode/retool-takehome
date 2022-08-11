@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Editor.css'
 import Draggable from 'react-draggable'
 import { v4 as uuidv4 } from 'uuid'
@@ -6,6 +6,7 @@ import Dropdown from './components/Dropdown'
 import Table from './components/Table'
 import TextInput from './components/TextInput'
 import Button from './components/Button'
+import { DatabaseContext } from './context'
 
 const COMPONENTS_LIST = [
   { name: 'Button', type: 'button' },
@@ -18,29 +19,62 @@ function DisplayComponent({ component_id, _component }) {
   let component = null
   switch (_component.type) {
     case 'button':
-      component = <Button />
+      component = <Button {...{ id: component_id, component: _component }} />
       break
     case 'text-input':
-      component = <TextInput />
+      component = <TextInput {...{ id: component_id, component: _component }} />
       break
     case 'dropdown':
-      component = <Dropdown />
+      component = <Dropdown {...{ id: component_id, component: _component }} />
       break
     case 'table':
-      component = <Table />
+      component = <Table {...{ id: component_id, component: _component }} />
       break
     default:
       break
   }
 
-  if (_component.type !== 'dropdown') return <Draggable grid={[25, 25]}>{component}</Draggable>
-  else return component
+  return component
+}
+
+function getDefaultComponentSize(_type) {
+  switch (_type) {
+    case 'button':
+      return {
+        width: 100,
+        height: 50,
+      }
+    case 'text-input':
+      return {
+        width: 200,
+        height: 50,
+      }
+    case 'dropdown':
+      return {
+        width: 100,
+        height: 50,
+      }
+    case 'table':
+      return {
+        width: 600,
+        height: 200,
+      }
+    default:
+      return {
+        width: 100,
+        height: 50,
+      }
+  }
 }
 
 // This is a functional component, which is an alternative to the class based syntax found in the App.js file
-function EditorCanvas({ components, setComponents }) {
+function EditorCanvas() {
+  const [components, setComponents] = useContext(DatabaseContext)
+  // console.log('components = ', components)
+  // console.log('localStorage.getItem("components") = ', localStorage.getItem('components'))
+
   return (
-    <div className="editor-canvas scroll-auto">
+    <div className="editor-canvas scroll-auto bg-slate-50 w-auto">
       <h4> Put the drag and drop interface over here! </h4>
       <section className="p-5 grid gap-2 relative">
         {Object.keys(components).map((component_id) => (
@@ -53,7 +87,8 @@ function EditorCanvas({ components, setComponents }) {
   )
 }
 
-const EditorPicker = ({ components, setComponents }) => {
+const EditorPicker = () => {
+  const [components, setComponents] = useContext(DatabaseContext)
   const addNewComponent = (_type, _name) => {
     let component_id = null
     while (!component_id) {
@@ -65,6 +100,11 @@ const EditorPicker = ({ components, setComponents }) => {
       [component_id]: {
         type: _type,
         name: _name,
+        position: {
+          x: 25,
+          y: 25,
+        },
+        size: getDefaultComponentSize(_type),
       },
     })
   }
@@ -88,10 +128,10 @@ const EditorPicker = ({ components, setComponents }) => {
       <div className="add-components grid grid-cols-1 gap-2">
         <h4 className="text-left font-bold">Dragging a component to the canvas to add it</h4>
         <div className="components-btn grid grid-cols-4 gap-2">
-          {COMPONENTS_LIST.map((component, key) => (
+          {COMPONENTS_LIST.map((_component, key) => (
             <Draggable grid={[25, 25]} key={`drag-component-${key}`}>
               <button className="rounded-lg border-2 border-blue-400 px hover:scale-[1.05] cursor-grab active:cursor-grabbing">
-                {component.name}
+                {_component.name}
               </button>
             </Draggable>
           ))}
@@ -101,11 +141,11 @@ const EditorPicker = ({ components, setComponents }) => {
   )
 }
 
-const Editor = (props) => {
+const Editor = () => {
   return (
     <div className="editor flex flex-row">
-      <EditorCanvas {...props} />
-      <EditorPicker {...props} />
+      <EditorCanvas />
+      <EditorPicker />
     </div>
   )
 }

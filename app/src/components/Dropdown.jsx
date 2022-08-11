@@ -3,9 +3,13 @@ import { Fragment } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import Dragbox from './Dragbox'
 
-export default function Dropdown({ options = [{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }] }) {
+export default function Dropdown({
+  id,
+  component,
+  options = [{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }],
+}) {
   return (
-    <Dragbox type="dropdown">
+    <Dragbox {...{ id, component }}>
       <div className="top-16 w-auto">
         <Menu as="div" className="relative inline-block text-left bg-white">
           <div>
@@ -27,8 +31,8 @@ export default function Dropdown({ options = [{ name: 'Option 1' }, { name: 'Opt
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="absolute z-50 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              {options.map((option) => (
-                <div className="px-1 py-1">
+              {options.map((option, id) => (
+                <div className="px-1 py-1" key={`dropdown-item-${id}`}>
                   <Menu.Item>
                     {({ active }) => (
                       <button
