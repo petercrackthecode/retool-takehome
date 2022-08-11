@@ -41,18 +41,18 @@ function getDefaultComponentSize(_type) {
   switch (_type) {
     case 'button':
       return {
-        width: 100,
-        height: 50,
+        width: 150,
+        height: 40,
       }
     case 'text-input':
       return {
-        width: 200,
+        width: 250,
         height: 50,
       }
     case 'dropdown':
       return {
-        width: 100,
-        height: 50,
+        width: 150,
+        height: 40,
       }
     case 'table':
       return {
@@ -74,15 +74,10 @@ function EditorCanvas() {
   // console.log('localStorage.getItem("components") = ', localStorage.getItem('components'))
 
   return (
-    <div className="editor-canvas scroll-auto bg-slate-50 w-auto">
-      <h4> Put the drag and drop interface over here! </h4>
-      <section className="p-5 grid gap-2 relative">
-        {Object.keys(components).map((component_id) => (
-          <Draggable grid={[25, 25]} key={component_id}>
-            <DisplayComponent component_id={component_id} _component={components[component_id]} />
-          </Draggable>
-        ))}
-      </section>
+    <div className="editor-canvas relative grid bg-slate-100 box-border overflow-y-auto">
+      {Object.keys(components).map((component_id) => (
+        <DisplayComponent component_id={component_id} _component={components[component_id]} />
+      ))}
     </div>
   )
 }
@@ -101,8 +96,8 @@ const EditorPicker = () => {
         type: _type,
         name: _name,
         position: {
-          x: 25,
-          y: 25,
+          x: 0,
+          y: 0,
         },
         size: getDefaultComponentSize(_type),
       },
@@ -110,7 +105,7 @@ const EditorPicker = () => {
   }
 
   return (
-    <div className="editor-picker min-w-[400px] shrink-0 flex flex-col space-y-4">
+    <div className="editor-picker shrink-0 flex flex-col space-y-4 m-0">
       <div className="create-components grid grid-cols-1 gap-2">
         <h4 className="text-left font-bold">Clicking these buttons should create new components on the canvas </h4>
         <div className="components-btn grid grid-cols-4 gap-2">
