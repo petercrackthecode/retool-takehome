@@ -8,3 +8,12 @@ export function DatabaseProvider({ children }) {
 
   return <DatabaseContext.Provider value={[components, setComponents]}>{children}</DatabaseContext.Provider>
 }
+
+export const AppState = React.createContext()
+export function AppStateProvider({ children }) {
+  const [appState, setAppState] = React.useState({
+    isShowingVisualGuide: false,
+  })
+
+  return <AppState.Provider value={[appState, setAppState]}>{children}</AppState.Provider>
+}

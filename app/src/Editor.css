@@ -6,13 +6,13 @@
 }
 
 .editor-canvas {
-  width: calc(100% - 400px);
+  width: calc(100% - 320px);
   margin: 0;
   padding: 0;
 }
 
 .editor-picker {
   padding: 25px;
-  width: 400px;
+  width: 320px;
   border-left: 1px solid black;
 }

@@ -1,12 +1,15 @@
 import Dragbox from './Dragbox'
 
 export default function Table({ id, component }) {
+  const {
+    size: { width, height },
+  } = component
   return (
     <Dragbox {...{ id, component }}>
-      <div className="w-fit">
-        <table className="table-auto overflow-auto border rounded-lg border-slate-300 border-spacing-2 w-full">
+      <div style={{ width: `${width}px`, height: `${height}px`, border: '2px solid red' }}>
+        <table className="overflow-auto border rounded-lg border-slate-300 border-spacing-2 w-full h-full">
           <thead className="border">
-            <tr className="odd:bg-white even:bg-gray-100 p-4">
+            <tr className="odd:bg-white even:bg-gray-100">
               <th className="text-left py-2 px-4">id</th>
               <th className="text-left py-2 px-4">email</th>
               <th className="text-left py-2 px-4">first_name</th>
