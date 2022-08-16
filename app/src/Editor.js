@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useEffect } from 'react'
 import './Editor.css'
-import Draggable from 'react-draggable'
 import { v4 as uuidv4 } from 'uuid'
 import Dropdown from './components/Dropdown'
 import Table from './components/Table'
@@ -15,8 +14,7 @@ const COMPONENTS_LIST = [
   { name: 'Table', type: 'table' },
 ]
 
-export const EDITOR_PICKER_WIDTH = 320,
-  APP_HEADER_HEIGHT = 100
+export const EDITOR_PICKER_WIDTH = 320
 
 function DisplayComponent({ component_id, _component }) {
   let component = null
@@ -49,8 +47,8 @@ function getDefaultComponentSize(_type, canvasWidth, canvasHeight) {
       }
     case 'text-input':
       return {
-        width: 250,
-        height: 50,
+        width: (1 / 6) * canvasWidth,
+        height: (3 / 48) * canvasHeight,
       }
     case 'dropdown':
       return {
@@ -60,7 +58,7 @@ function getDefaultComponentSize(_type, canvasWidth, canvasHeight) {
     case 'table':
       return {
         width: (2 / 3) * canvasWidth,
-        height: (1 / 3) * canvasHeight,
+        height: (2 / 3) * canvasHeight,
       }
     default:
       return {
@@ -111,10 +109,6 @@ function EditorCanvas() {
       }`}
       ref={refCanvas}
     >
-      <h1 className="text-2xl">
-        Canvas width = {appState?.editorCanvas?.width || window.innerWidth - EDITOR_PICKER_WIDTH}. Canvas height ={' '}
-        {appState?.editorCanvas?.height || window.innerHeight - APP_HEADER_HEIGHT}
-      </h1>
       {Object.keys(components).map((component_id) => (
         <DisplayComponent component_id={component_id} _component={components[component_id]} key={component_id} />
       ))}
@@ -159,7 +153,7 @@ const EditorPicker = () => {
                   component.type,
                   component.name,
                   appState.editorCanvas.width || window.innerWidth - EDITOR_PICKER_WIDTH,
-                  appState.editorCanvas.height || window.innerHeight - APP_HEADER_HEIGHT
+                  appState.editorCanvas.height || window.innerHeight
                 )
               }
             >

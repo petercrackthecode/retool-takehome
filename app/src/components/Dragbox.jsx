@@ -16,8 +16,6 @@ export default function Dragbox({ id, children, component }) {
     setComponents({ ...components, [id]: { ...component, position: { x, y } } })
   }
 
-  console.log('right = ', window.innerWidth - EDITOR_PICKER_WIDTH)
-
   return (
     <Draggable
       grid={[25, 25]}
