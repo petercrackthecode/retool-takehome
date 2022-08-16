@@ -15,10 +15,8 @@ const COMPONENTS_LIST = [
   { name: 'Table', type: 'table' },
 ]
 
-const EDITOR_PICKER_WIDTH = 320,
+export const EDITOR_PICKER_WIDTH = 320,
   APP_HEADER_HEIGHT = 100
-
-const CANVAS_COLUMNS = 12
 
 function DisplayComponent({ component_id, _component }) {
   let component = null
@@ -46,8 +44,8 @@ function getDefaultComponentSize(_type, canvasWidth, canvasHeight) {
   switch (_type) {
     case 'button':
       return {
-        width: (((3 / 24) * CANVAS_COLUMNS) / CANVAS_COLUMNS) * canvasWidth,
-        height: (((3 / 48) * CANVAS_COLUMNS) / CANVAS_COLUMNS) * canvasHeight,
+        width: (1 / 6) * canvasWidth,
+        height: (3 / 48) * canvasHeight,
       }
     case 'text-input':
       return {
@@ -56,18 +54,18 @@ function getDefaultComponentSize(_type, canvasWidth, canvasHeight) {
       }
     case 'dropdown':
       return {
-        width: 150,
-        height: 40,
+        width: (1 / 6) * canvasWidth,
+        height: (3 / 48) * canvasHeight,
       }
     case 'table':
       return {
-        width: (((2 / 3) * CANVAS_COLUMNS) / CANVAS_COLUMNS) * canvasWidth,
-        height: (((1 / 3) * CANVAS_COLUMNS) / CANVAS_COLUMNS) * canvasHeight,
+        width: (2 / 3) * canvasWidth,
+        height: (1 / 3) * canvasHeight,
       }
     default:
       return {
-        width: 100,
-        height: 50,
+        width: (1 / 6) * canvasWidth,
+        height: (3 / 48) * canvasHeight,
       }
   }
 }

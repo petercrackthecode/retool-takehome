@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import Draggable from 'react-draggable'
 import { DatabaseContext } from '../context'
 import { AppState } from '../context'
+import { EDITOR_PICKER_WIDTH } from '../Editor'
 
 export default function Dragbox({ id, children, component }) {
   const [components, setComponents] = useContext(DatabaseContext)
@@ -15,11 +16,14 @@ export default function Dragbox({ id, children, component }) {
     setComponents({ ...components, [id]: { ...component, position: { x, y } } })
   }
 
+  console.log('right = ', window.innerWidth - EDITOR_PICKER_WIDTH)
+
   return (
     <Draggable
       grid={[25, 25]}
       position={position}
       handle=".drag-handle"
+      bounds={{ left: 0, right: window.innerWidth - EDITOR_PICKER_WIDTH - component.size.width }}
       onDrag={onControlDrag}
       onStart={() => setAppState({ ...appState, isShowingVisualGuide: true })}
       onStop={() => setAppState({ ...appState, isShowingVisualGuide: false })}
