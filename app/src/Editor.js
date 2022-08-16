@@ -107,14 +107,16 @@ function EditorCanvas() {
   }, [])
 
   return (
-    <div className="editor-canvas relative grid bg-slate-100 box-border overflow-y-auto" ref={refCanvas}>
+    <div
+      className={`editor-canvas relative grid box-border overflow-y-auto ${
+        appState.isShowingVisualGuide ? 'editor-canvas-visual-guide' : 'bg-slate-100'
+      }`}
+      ref={refCanvas}
+    >
       <h1 className="text-2xl">
         Canvas width = {appState?.editorCanvas?.width || window.innerWidth - EDITOR_PICKER_WIDTH}. Canvas height ={' '}
         {appState?.editorCanvas?.height || window.innerHeight - APP_HEADER_HEIGHT}
       </h1>
-      <div
-        className={`absolute inset-0 overflow-y-auto bg-red-100 ${appState.isShowingVisualGuide ? 'block' : 'hidden'}`}
-      ></div>
       {Object.keys(components).map((component_id) => (
         <DisplayComponent component_id={component_id} _component={components[component_id]} key={component_id} />
       ))}
