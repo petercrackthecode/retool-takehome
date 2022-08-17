@@ -18,9 +18,9 @@ export default function Dragbox({ id, children, component }) {
 
   return (
     <Draggable
-      grid={[25, 25]}
+      grid={[(window.innerWidth - EDITOR_PICKER_WIDTH) / 12, window.innerHeight / 12]}
       position={position}
-      handle=".drag-handle"
+      // handle=".drag-handle"
       bounds={{ left: 0, right: window.innerWidth - EDITOR_PICKER_WIDTH - component.size.width }}
       onDrag={onControlDrag}
       onStart={() => setAppState({ ...appState, isShowingVisualGuide: true })}

@@ -1,4 +1,8 @@
 
+* {
+  box-sizing: border-box;
+}
+
 .editor {
   width: 100%;
   height: 100%;
@@ -8,7 +12,6 @@
 .editor-canvas {
   width: calc(100% - 320px);
   margin: 0;
-  padding: 0;
 }
 
 .editor-canvas-visual-guide {

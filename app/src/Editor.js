@@ -90,21 +90,44 @@ function EditorCanvas() {
     }
   }
 
+  const updateComponentsSize = () => {
+    if (components) {
+      const newComponents = {}
+      Object.keys(components).forEach((key) => {
+        newComponents[key] = {
+          ...components[key],
+          size: getDefaultComponentSize(
+            components[key].type,
+            appState?.editorCanvas?.width || window.innerWidth - EDITOR_PICKER_WIDTH,
+            appState?.editorCanvas?.height || window.innerHeight
+          ),
+        }
+      })
+      setComponents(newComponents)
+    }
+  }
+
+  const updateComponentsPosition = () => {}
+
   useEffect(() => {
     // get the canvas size on first page load
     updateCanvasSize()
 
     window.addEventListener('resize', updateCanvasSize)
+    window.addEventListener('resize', updateComponentsSize)
+    window.addEventListener('resize', updateComponentsPosition)
 
     // remove the resize listener on unmount for performance
     return () => {
       window.removeEventListener('resize', updateCanvasSize)
+      window.removeEventListener('resize', updateComponentsSize)
+      window.removeEventListener('resize', updateComponentsPosition)
     }
   }, [])
 
   return (
     <div
-      className={`editor-canvas relative grid box-border overflow-y-auto ${
+      className={`editor-canvas relative grid p-2 box-border overflow-y-auto ${
         appState.isShowingVisualGuide ? 'editor-canvas-visual-guide' : 'bg-slate-100'
       }`}
       ref={refCanvas}
