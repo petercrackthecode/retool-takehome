@@ -13,6 +13,8 @@ export const AppState = React.createContext()
 export function AppStateProvider({ children }) {
   const [appState, setAppState] = React.useState({
     isShowingVisualGuide: false,
+    isShowingComponentInspector: false,
+    inspectedComponentId: null,
   })
 
   return <AppState.Provider value={[appState, setAppState]}>{children}</AppState.Provider>

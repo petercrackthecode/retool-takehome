@@ -8,10 +8,17 @@ import Button from './components/Button'
 import { DatabaseContext, AppState } from './context'
 
 const COMPONENTS_LIST = [
-  { name: 'Button', type: 'button' },
-  { name: 'Text Input', type: 'text-input' },
-  { name: 'Dropdown', type: 'dropdown' },
-  { name: 'Table', type: 'table' },
+  { name: 'Button', type: 'button', Text: 'Button', Border: '#3C92DD', 'Border radius': '4px' },
+  {
+    name: 'Text Input',
+    type: 'text-input',
+    Label: 'Name',
+    Border: null,
+    'border radius': '4px',
+    Placeholder: 'Search here',
+  },
+  { name: 'Dropdown', type: 'dropdown', Text: 'Name', Border: '#000000', 'Border radius': '4px' },
+  { name: 'Table', type: 'table', Border: null, 'Border radius': '4px' },
 ]
 
 export const EDITOR_PICKER_WIDTH = 320
@@ -94,14 +101,24 @@ function getComponentImage(component_type) {
   return imageUrl
 }
 
+function getComponentRelatedProps(component_type) {
+  // filter out the props that are commonly shared by every component
+  let filteredUnrelatedPropsComponents = {}
+  for (let component in COMPONENTS_LIST) {
+    const curr_type = component.type
+    Object.keys(component)
+      .filter((key) => key !== 'name' && key !== 'type')
+      .map((key) => (filteredUnrelatedPropsComponents[curr_type] = component[key]))
+  }
+
+  return filteredUnrelatedPropsComponents[component_type]
+}
+
 // This is a functional component, which is an alternative to the class based syntax found in the App.js file
 function EditorCanvas() {
   const refCanvas = useRef()
   const [components, setComponents] = useContext(DatabaseContext)
   const [appState, setAppState] = useContext(AppState)
-
-  // console.log('components = ', components)
-  // console.log('localStorage.getItem("components") = ', localStorage.getItem('components'))
 
   const updateCanvasSize = () => {
     if (refCanvas.current) {
@@ -119,8 +136,6 @@ function EditorCanvas() {
   const updateComponentsSize = () => {
     if (components) {
       function getNewComponentsSize(prevComponents) {
-        console.log('previous components = ', prevComponents)
-
         let newComponents = {}
         Object.keys(prevComponents).forEach((key) => {
           newComponents[key] = {
@@ -132,8 +147,6 @@ function EditorCanvas() {
             ),
           }
         })
-
-        console.log('new components = ', newComponents)
         return newComponents
       }
 
@@ -165,6 +178,13 @@ function EditorCanvas() {
         appState.isShowingVisualGuide ? 'editor-canvas-visual-guide' : 'bg-slate-100'
       }`}
       ref={refCanvas}
+      onClick={(_) =>
+        setAppState((prevAppState) => ({
+          ...prevAppState,
+          isShowingComponentInspector: false,
+          inspectedComponentId: null,
+        }))
+      }
     >
       {Object.keys(components).map((component_id) => (
         <DisplayComponent component_id={component_id} _component={components[component_id]} key={component_id} />
@@ -175,7 +195,8 @@ function EditorCanvas() {
 
 const EditorPicker = () => {
   const [components, setComponents] = useContext(DatabaseContext)
-  const [appState] = useContext(AppState)
+  const [appState, setAppState] = useContext(AppState)
+
   const addNewComponent = (_type, _name, canvasWidth, canvasHeight) => {
     let component_id = null
     while (!component_id) {
@@ -185,6 +206,7 @@ const EditorPicker = () => {
     setComponents({
       ...components,
       [component_id]: {
+        ...getComponentRelatedProps(_type),
         type: _type,
         name: _name,
         position: {
@@ -196,43 +218,75 @@ const EditorPicker = () => {
     })
   }
 
+  const getInspectionList = () => {
+    if (!appState.inspectedComponentId)
+      return (
+        <div className="border-dashed border-2 border-gray-100 text-gray-400">
+          No components selected. Click on a component to select it.
+        </div>
+      )
+
+    const selectedComponent = components[appState.inspectedComponentId]
+
+    return <div className="w-full flex flex-col">{}</div>
+  }
+
   return (
     <div className="editor-picker shrink-0 flex flex-col space-y-4 m-0">
-      <div className="create-components grid grid-cols-1 gap-2">
-        <h4 className="text-left font-bold">Clicking these buttons should create new components on the canvas </h4>
-        <div className="components-btn grid grid-cols-4 gap-2">
-          {COMPONENTS_LIST.map((component, key) => (
-            <div key={`create-component-btn-${key}`} className="flex flex-col space-y-2">
-              <button
-                className="rounded-lg border bg-gray-100 p-2 hover:scale-[1.05] text-[10px]"
-                onClick={() =>
-                  addNewComponent(
-                    component.type,
-                    component.name,
-                    appState.editorCanvas.width || window.innerWidth - EDITOR_PICKER_WIDTH,
-                    appState.editorCanvas.height || window.innerHeight
-                  )
-                }
-              >
-                <img src={getComponentImage(component.type)} alt={`${component.type} button`} />
-              </button>
-              <p className="text-[12px]">{component.name}</p>
-            </div>
-          ))}
-        </div>
+      <div className="editor-picker-header w-full h-[40px] bg-gray-100 flex flex-row items-center justify-center space-x-4">
+        <button
+          className={`${
+            appState.isShowingComponentInspector ? 'text-black' : 'text-slate-400 hover:text-slate-700'
+          } text-sm h-full relative`}
+          onClick={() => setAppState((prevAppState) => ({ ...prevAppState, isShowingComponentInspector: true }))}
+        >
+          Inspect
+          <span
+            className={`absolute inset-x-0 bottom-0 h-[2px] bg-black ${
+              appState.isShowingComponentInspector ? 'block' : 'hidden'
+            }`}
+          />
+        </button>
+        <button
+          className={`${
+            !appState.isShowingComponentInspector ? 'text-black' : 'text-slate-400 hover:text-slate-700'
+          } text-sm h-full relative`}
+          onClick={() => setAppState((prevAppState) => ({ ...prevAppState, isShowingComponentInspector: false }))}
+        >
+          Create
+          <span
+            className={`absolute inset-x-0 bottom-0 h-[2px] bg-black ${
+              !appState.isShowingComponentInspector ? 'block' : 'hidden'
+            }`}
+          />
+        </button>
       </div>
-      {/* <div className="add-components grid grid-cols-1 gap-2">
-        <h4 className="text-left font-bold">Dragging a component to the canvas to add it</h4>
-        <div className="components-btn grid grid-cols-4 gap-2">
-          {COMPONENTS_LIST.map((_component, key) => (
-            <Draggable grid={[25, 25]} key={`drag-component-${key}`}>
-              <button className="rounded-lg border-2 border-blue-400 px hover:scale-[1.05] cursor-grab active:cursor-grabbing">
-                {_component.name}
-              </button>
-            </Draggable>
-          ))}
+      {appState.isShowingComponentInspector ? (
+        <div className="px-4">{getInspectionList()}</div>
+      ) : (
+        <div className="create-components grid grid-cols-1 gap-2 px-4">
+          <div className="components-btn grid grid-cols-4 gap-2">
+            {COMPONENTS_LIST.map((component, key) => (
+              <div key={`create-component-btn-${key}`} className="flex flex-col space-y-2">
+                <button
+                  className="rounded-lg border bg-gray-100 p-2 hover:scale-[1.05] text-[10px]"
+                  onClick={() =>
+                    addNewComponent(
+                      component.type,
+                      component.name,
+                      appState.editorCanvas.width || window.innerWidth - EDITOR_PICKER_WIDTH,
+                      appState.editorCanvas.height || window.innerHeight
+                    )
+                  }
+                >
+                  <img src={getComponentImage(component.type)} alt={`${component.type} button`} />
+                </button>
+                <p className="text-[12px]">{component.name}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div> */}
+      )}
     </div>
   )
 }
