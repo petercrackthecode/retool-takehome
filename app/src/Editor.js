@@ -68,6 +68,32 @@ function getDefaultComponentSize(_type, canvasWidth, canvasHeight) {
   }
 }
 
+function getComponentImage(component_type) {
+  let imageUrl = ''
+  switch (component_type) {
+    case 'button':
+      imageUrl =
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iNi41IiB5PSIxNS41IiB3aWR0aD0iMzYiIGhlaWdodD0iMTciIHJ4PSIzLjUiIGZpbGw9IiM0QUExRUQiIHN0cm9rZT0iIzRBQTFFRCIvPjxwYXRoIGQ9Im0xMi42ODQgMjcgLjQzMi0xLjMyN2gyLjFMMTUuNjQ3IDI3aDEuMzE5bC0yLjAwNi01LjgxOGgtMS41ODVMMTEuMzY2IDI3aDEuMzE4Wm0uNzQ1LTIuMjg3LjcxNi0yLjIwMmguMDQ1bC43MTYgMi4yMDJoLTEuNDc3Wm01Ljk4MyAyLjM3MmMxLjE2MiAwIDEuODkyLS42ODIgMS45NDgtMS42ODRoLTEuMTQyYy0uMDcuNDY1LS4zNzcuNzI3LS43OTIuNzI3LS41NjYgMC0uOTMyLS40NzUtLjkzMi0xLjMxIDAtLjgyNC4zNy0xLjI5NS45MzItMS4yOTUuNDQzIDAgLjcyNy4yOTIuNzkyLjcyN2gxLjE0MmMtLjA1LTEuMDA5LS44MTUtMS42Ny0xLjk1NC0xLjY3LTEuMzI0IDAtMi4xNDIuOTE3LTIuMTQyIDIuMjU1IDAgMS4zMjcuODA0IDIuMjUgMi4xNDggMi4yNVptNS4wNDQtNC40NDloLS44MnYtMS4wNDVoLTEuMjF2MS4wNDVoLS41OTh2LjkxaC41OTd2Mi4yNzJjLS4wMDYuODU1LjU3NyAxLjI3OSAxLjQ1NSAxLjI0Mi4zMTItLjAxMi41MzQtLjA3NC42NTYtLjExNGwtLjE5LS45Yy0uMDYuMDEtLjE4OC4wNC0uMzAyLjA0LS4yNDEgMC0uNDA5LS4wOTItLjQwOS0uNDI3di0yLjExM2guODIxdi0uOTFaTTI1LjI0NSAyN2gxLjIxdi00LjM2NGgtMS4yMVYyN1ptLjYwOC00LjkyNmMuMzYgMCAuNjU2LS4yNzYuNjU2LS42MTQgMC0uMzM1LS4yOTYtLjYxLS42NTYtLjYxLS4zNTggMC0uNjU0LjI3NS0uNjU0LjYxIDAgLjMzOC4yOTYuNjE0LjY1NC42MTRabTMuNTQzIDUuMDExYzEuMzI0IDAgMi4xNDgtLjkwNiAyLjE0OC0yLjI1IDAtMS4zNTItLjgyNC0yLjI1Ni0yLjE0OC0yLjI1Ni0xLjMyNCAwLTIuMTQ4LjkwNC0yLjE0OCAyLjI1NiAwIDEuMzQ0LjgyNCAyLjI1IDIuMTQ4IDIuMjVabS4wMDYtLjkzN2MtLjYxMSAwLS45MjQtLjU2LS45MjQtMS4zMjEgMC0uNzYyLjMxMy0xLjMyNC45MjQtMS4zMjQuNiAwIC45MTIuNTYyLjkxMiAxLjMyNCAwIC43NjEtLjMxMyAxLjMyLS45MTIgMS4zMlptNC4xMzktMS42N2MuMDAzLS41NjMuMzM4LS44OTMuODI3LS44OTMuNDg1IDAgLjc3OC4zMTguNzc1Ljg1MlYyN2gxLjIxdi0yLjc3OGMwLTEuMDE4LS41OTYtMS42NDMtMS41MDUtMS42NDMtLjY0OCAwLTEuMTE3LjMxOS0xLjMxMy44MjdoLS4wNTF2LS43N2gtMS4xNTNWMjdoMS4yMXYtMi41MjNaIiBmaWxsPSIjZmZmIi8+PC9zdmc+Cg=='
+      break
+    case 'text-input':
+      imageUrl =
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDExSDZhMiAyIDAgMCAwLTIgMnY0TTM4IDM4aDRhMiAyIDAgMCAwIDItMnYtNE00NCAxN3YtNGEyIDIgMCAwIDAtMi0yaC00TTQgMzJ2NGEyIDIgMCAwIDAgMiAyaDQiIHN0cm9rZT0iI0Q4RDhEOCIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIHN0cm9rZT0iI0Q4RDhEOCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGQ9Ik0yOCAxN2gxMU0yOCAyMmgxMU05IDI4aDMwTTkgMzNoMjQiLz48cGF0aCBkPSJNOC42MjIgMTUuODQ0VjIzaDEuNDY4di00LjY3NWguMDU5bDEuODUyIDQuNjRoMWwxLjg1MS00LjYyM2guMDZWMjNoMS40Njd2LTcuMTU2aC0xLjg2NmwtMS45NyA0LjgwOGgtLjA4NGwtMS45NzEtNC44MDhIOC42MjJaIiBmaWxsPSIjOEU4RThFIi8+PHBhdGggZD0iTTIxLjAwNiAxNnY3bTAgMEwyNCAyMG0tMi45OTQgM0wxOCAyMCIgc3Ryb2tlPSIjOEU4RThFIiBzdHJva2Utd2lkdGg9IjEuNCIvPjwvc3ZnPgo='
+      break
+    case 'dropdown':
+      imageUrl =
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMTMuOCIgeT0iMTUuOCIgd2lkdGg9IjE4LjQiIGhlaWdodD0iMTcuNCIgcng9IjMuMiIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjREVERURFIiBzdHJva2Utd2lkdGg9IjEuNiIvPjxwYXRoIGQ9Ik0xOS4yODkgMjUuOTMyYTEuMjUgMS4yNSAwIDEgMCAwLTIuNSAxLjI1IDEuMjUgMCAwIDAgMCAyLjVaTTIzIDI1LjkzMmExLjI1IDEuMjUgMCAxIDAgMC0yLjUgMS4yNSAxLjI1IDAgMCAwIDAgMi41Wk0yNi43MSAyNS45MzJhMS4yNSAxLjI1IDAgMSAwIDAtMi41IDEuMjUgMS4yNSAwIDAgMCAwIDIuNVoiIGZpbGw9IiNCMkIyQjIiLz48L3N2Zz4K'
+      break
+    case 'table':
+      imageUrl =
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTQzIDM4SDVWMTdhMSAxIDAgMCAxIDEtMWgzNmExIDEgMCAwIDEgMSAxdjIxWiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik01IDM1aDM4djFhMiAyIDAgMCAxLTIgMkg3YTIgMiAwIDAgMS0yLTJ2LTFaIiBmaWxsPSIjREVERURFIi8+PHBhdGggZD0iTTEyIDM4VjExTTI4IDM4VjExTTUgMjJoMzhNNSAyOWgzOE0yMCAzOFYxMU0zNiAzOFYxMSIgc3Ryb2tlPSIjREVERURFIiBzdHJva2Utd2lkdGg9IjEuNiIvPjxwYXRoIGQ9Ik00MyAxNkg1di01YTEgMSAwIDAgMSAxLTFoMzZhMSAxIDAgMCAxIDEgMXY1WiIgZmlsbD0iI0RFREVERSIvPjxyZWN0IHg9IjQuOCIgeT0iMTAuOCIgd2lkdGg9IjM4LjQiIGhlaWdodD0iMjcuNCIgcng9IjIuMiIgc3Ryb2tlPSIjNzU3NTc1IiBzdHJva2Utd2lkdGg9IjEuNiIvPjwvc3ZnPgo='
+      break
+    default:
+      break
+  }
+
+  return imageUrl
+}
+
 // This is a functional component, which is an alternative to the class based syntax found in the App.js file
 function EditorCanvas() {
   const refCanvas = useRef()
@@ -92,18 +118,26 @@ function EditorCanvas() {
 
   const updateComponentsSize = () => {
     if (components) {
-      const newComponents = {}
-      Object.keys(components).forEach((key) => {
-        newComponents[key] = {
-          ...components[key],
-          size: getDefaultComponentSize(
-            components[key].type,
-            appState?.editorCanvas?.width || window.innerWidth - EDITOR_PICKER_WIDTH,
-            appState?.editorCanvas?.height || window.innerHeight
-          ),
-        }
-      })
-      setComponents(newComponents)
+      function getNewComponentsSize(prevComponents) {
+        console.log('previous components = ', prevComponents)
+
+        let newComponents = {}
+        Object.keys(prevComponents).forEach((key) => {
+          newComponents[key] = {
+            ...prevComponents[key],
+            size: getDefaultComponentSize(
+              prevComponents[key].type,
+              appState?.editorCanvas?.width || window.innerWidth - EDITOR_PICKER_WIDTH,
+              appState?.editorCanvas?.height || window.innerHeight
+            ),
+          }
+        })
+
+        console.log('new components = ', newComponents)
+        return newComponents
+      }
+
+      setComponents((prevComponents) => getNewComponentsSize(prevComponents))
     }
   }
 
@@ -115,13 +149,13 @@ function EditorCanvas() {
 
     window.addEventListener('resize', updateCanvasSize)
     window.addEventListener('resize', updateComponentsSize)
-    window.addEventListener('resize', updateComponentsPosition)
+    // window.addEventListener('resize', updateComponentsPosition)
 
     // remove the resize listener on unmount for performance
     return () => {
       window.removeEventListener('resize', updateCanvasSize)
       window.removeEventListener('resize', updateComponentsSize)
-      window.removeEventListener('resize', updateComponentsPosition)
+      // window.removeEventListener('resize', updateComponentsPosition)
     }
   }, [])
 
@@ -168,20 +202,22 @@ const EditorPicker = () => {
         <h4 className="text-left font-bold">Clicking these buttons should create new components on the canvas </h4>
         <div className="components-btn grid grid-cols-4 gap-2">
           {COMPONENTS_LIST.map((component, key) => (
-            <button
-              className="rounded-lg border-2 border-blue-400 px hover:scale-[1.05] text-[10px]"
-              key={`create-component-btn-${key}`}
-              onClick={() =>
-                addNewComponent(
-                  component.type,
-                  component.name,
-                  appState.editorCanvas.width || window.innerWidth - EDITOR_PICKER_WIDTH,
-                  appState.editorCanvas.height || window.innerHeight
-                )
-              }
-            >
-              {component.name}
-            </button>
+            <div key={`create-component-btn-${key}`} className="flex flex-col space-y-2">
+              <button
+                className="rounded-lg border bg-gray-100 p-2 hover:scale-[1.05] text-[10px]"
+                onClick={() =>
+                  addNewComponent(
+                    component.type,
+                    component.name,
+                    appState.editorCanvas.width || window.innerWidth - EDITOR_PICKER_WIDTH,
+                    appState.editorCanvas.height || window.innerHeight
+                  )
+                }
+              >
+                <img src={getComponentImage(component.type)} alt={`${component.type} button`} />
+              </button>
+              <p className="text-[12px]">{component.name}</p>
+            </div>
           ))}
         </div>
       </div>
