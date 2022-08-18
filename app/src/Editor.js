@@ -7,19 +7,19 @@ import TextInput from './components/TextInput'
 import Button from './components/Button'
 import { DatabaseContext, AppState } from './context'
 
-const COMPONENTS_LIST = [
-  { name: 'Button', type: 'button', Text: 'Button', Border: '#3C92DD', 'Border radius': '4px' },
-  {
+// Beside name and type, all other props are component's default props values.
+const COMPONENTS_LIST = {
+  button: { name: 'Button', type: 'button', Text: 'Button', 'Border radius': '4px' },
+  'text-input': {
     name: 'Text Input',
     type: 'text-input',
     Label: 'Name',
-    Border: null,
-    'border radius': '4px',
+    'Border radius': '4px',
     Placeholder: 'Search here',
   },
-  { name: 'Dropdown', type: 'dropdown', Text: 'Name', Border: '#000000', 'Border radius': '4px' },
-  { name: 'Table', type: 'table', Border: null, 'Border radius': '4px' },
-]
+  dropdown: { name: 'Dropdown', type: 'dropdown', Text: 'Name', 'Border radius': '4px' },
+  table: { name: 'Table', type: 'table', 'Border radius': '4px' },
+}
 
 export const EDITOR_PICKER_WIDTH = 320
 
@@ -101,17 +101,19 @@ function getComponentImage(component_type) {
   return imageUrl
 }
 
-function getComponentRelatedProps(component_type) {
+function getComponentRelatedProps(component_type, _component) {
   // filter out the props that are commonly shared by every component
   let filteredUnrelatedPropsComponents = {}
-  for (let component in COMPONENTS_LIST) {
-    const curr_type = component.type
-    Object.keys(component)
-      .filter((key) => key !== 'name' && key !== 'type')
-      .map((key) => (filteredUnrelatedPropsComponents[curr_type] = component[key]))
+  const componentEntries = Object.entries(_component ? _component : COMPONENTS_LIST[component_type])
+  const commonlySharedProps = new Set(['type', 'name', 'size', 'position'])
+
+  for (let [key, value] of componentEntries) {
+    if (!commonlySharedProps.has(key)) {
+      filteredUnrelatedPropsComponents[key] = value
+    }
   }
 
-  return filteredUnrelatedPropsComponents[component_type]
+  return filteredUnrelatedPropsComponents
 }
 
 // This is a functional component, which is an alternative to the class based syntax found in the App.js file
@@ -218,6 +220,16 @@ const EditorPicker = () => {
     })
   }
 
+  const handleComponentPropsChange = ({ event, component_id, field }) => {
+    setComponents((prevComponents) => ({
+      ...prevComponents,
+      [component_id]: {
+        ...prevComponents[component_id],
+        [field]: event.target.value,
+      },
+    }))
+  }
+
   const getInspectionList = () => {
     if (!appState.inspectedComponentId)
       return (
@@ -228,7 +240,25 @@ const EditorPicker = () => {
 
     const selectedComponent = components[appState.inspectedComponentId]
 
-    return <div className="w-full flex flex-col">{}</div>
+    return (
+      <div className="w-full flex flex-col divide-y border border-gray-300 rounded-md">
+        {Object.entries(getComponentRelatedProps(selectedComponent.type, selectedComponent)).map(
+          ([_key, _value], id) => (
+            <div key={id} className="w-full p-2 flex flex-row justify-between space-x-4">
+              <label className="w-1/2 text-left">{_key}</label>
+              <input
+                className="w-1/2 text-left"
+                type="text"
+                value={_value}
+                onChange={(event) =>
+                  handleComponentPropsChange({ event, component_id: appState.inspectedComponentId, field: _key })
+                }
+              />
+            </div>
+          )
+        )}
+      </div>
+    )
   }
 
   return (
@@ -266,22 +296,22 @@ const EditorPicker = () => {
       ) : (
         <div className="create-components grid grid-cols-1 gap-2 px-4">
           <div className="components-btn grid grid-cols-4 gap-2">
-            {COMPONENTS_LIST.map((component, key) => (
+            {Object.keys(COMPONENTS_LIST).map((_type, key) => (
               <div key={`create-component-btn-${key}`} className="flex flex-col space-y-2">
                 <button
                   className="rounded-lg border bg-gray-100 p-2 hover:scale-[1.05] text-[10px]"
                   onClick={() =>
                     addNewComponent(
-                      component.type,
-                      component.name,
+                      _type,
+                      COMPONENTS_LIST[_type].name,
                       appState.editorCanvas.width || window.innerWidth - EDITOR_PICKER_WIDTH,
                       appState.editorCanvas.height || window.innerHeight
                     )
                   }
                 >
-                  <img src={getComponentImage(component.type)} alt={`${component.type} button`} />
+                  <img src={getComponentImage(_type)} alt={`${_type} button`} />
                 </button>
-                <p className="text-[12px]">{component.name}</p>
+                <p className="text-[12px]">{COMPONENTS_LIST[_type].name}</p>
               </div>
             ))}
           </div>

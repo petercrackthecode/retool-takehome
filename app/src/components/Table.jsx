@@ -4,10 +4,11 @@ export default function Table({ id, component }) {
   const {
     size: { width, height },
   } = component
+  const borderRadius = component['Border radius']
   return (
     <Dragbox {...{ id, component }}>
-      <div style={{ overflow: 'auto', width: `${width}px`, height: `${height}px` }}>
-        <table className="relative overflow-auto border rounded-lg border-slate-300 border-spacing-2">
+      <div style={{ overflow: 'auto', width: `${width}px`, height: `${height}px`, borderRadius }}>
+        <table className="relative overflow-auto border bg-red-100 border-slate-300 border-spacing-2">
           <thead className="border">
             <tr className="odd:bg-white even:bg-gray-100">
               <th className="text-left py-2 px-4">id</th>

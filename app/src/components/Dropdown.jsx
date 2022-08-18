@@ -10,18 +10,20 @@ export default function Dropdown({
 }) {
   const {
     size: { width, height },
+    Text,
   } = component
+  const borderRadius = component['Border radius']
 
   return (
     <Dragbox {...{ id, component }}>
       <div className="top-16">
-        <Menu as="div" className="relative inline-block text-left bg-white">
+        <Menu as="div" className="relative inline-block text-left bg-white" style={{ borderRadius }}>
           <div>
             <Menu.Button
               className="inline-flex w-full justify-center items-center rounded-md px-4 py-2 text-sm border border-black font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-              style={{ width: `${width}px`, height: `${height}px` }}
+              style={{ width: `${width}px`, height: `${height}px`, borderRadius }}
             >
-              Menu
+              {Text}
               <ChevronDownIcon
                 className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
                 aria-hidden="true"
