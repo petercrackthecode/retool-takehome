@@ -17,7 +17,7 @@
 .editor-canvas-visual-guide {
   background-image: radial-gradient(#78716C 20%, transparent 20%), radial-gradient(#FAFAFA 20%, transparent 20%);
   background-color: rgb(226 232 240);
-  background-position: 0 0, 25px 25px;
+  background-position: 0 0;
   background-size: 10px 10px;
 }
 
