@@ -156,21 +156,17 @@ function EditorCanvas() {
     }
   }
 
-  const updateComponentsPosition = () => {}
-
   useEffect(() => {
     // get the canvas size on first page load
     updateCanvasSize()
 
     window.addEventListener('resize', updateCanvasSize)
     window.addEventListener('resize', updateComponentsSize)
-    // window.addEventListener('resize', updateComponentsPosition)
 
     // remove the resize listener on unmount for performance
     return () => {
       window.removeEventListener('resize', updateCanvasSize)
       window.removeEventListener('resize', updateComponentsSize)
-      // window.removeEventListener('resize', updateComponentsPosition)
     }
   }, [])
 
