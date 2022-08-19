@@ -1,4 +1,4 @@
-## Retool listed bugs & suggestion:
+## Retool's list of bugs & suggestions:
 
 1. Cannot resize an image vertically (I’m not sure if this is intentionally designed since other components can be resized vertically).
 
