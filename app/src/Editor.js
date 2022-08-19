@@ -7,7 +7,7 @@ import TextInput from './components/TextInput'
 import Button from './components/Button'
 import { DatabaseContext, AppState } from './context'
 
-// Beside name and type, all other props are component's default props values.
+// Beside name, type, position, and size, all other props are component's default props values.
 const COMPONENTS_LIST = {
   button: { name: 'Button', type: 'button', Text: 'Button', 'Border radius': '4px' },
   'text-input': {
