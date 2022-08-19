@@ -1,5 +1,11 @@
 # Retool take-home notes
 
+> ## Author notes
+>
+> This submission is authored by Peter Nguyen (https://github.com/petercrackthecode, or 🚀peternguyenforwork[at]gmail[dot]com). The work in this repository belongs to the author- Peter Nguyen, and the Retool team (https://retool.com/). No part of this work is allowed to copied by non-owners without a written consent of the authors.
+>
+> To visit Peter Nguyen's notes, click [here](#discussion).
+
 ### Requirements
 
 - [x] We should have a list of buttons that create components (buttons, inputs, dropdowns, and tables). This is already done for you in the starter application.
@@ -35,22 +41,40 @@
 
 - How could it be adapted to also allow users to resize components?
 
-### Draft
+### Project demo
+
+https://www.loom.com/share/a34b4cf345904cbf84b7ebb3f42c049a
+
+### Discussion
 
 - What’s the reason we chose local storage to save a component’s (x, y) position?
+
   Answer: We have 3 options to save components’ (x, y) positions:
+
   - cookies.
   - local storage.
   - session storage.
-  For session storage, data will be deleted after a session (for example, when users close their browser) ⇒ they won’t be able to see the data once they open the browser again ⇒ we discard this option.
-  Compare between using cookies and local storage:
-  Both conserve data after users open a new tab or close their browser windows. Since we only save the components’ (x, y) positions, which will only be helpful for the client (Assuming that the server only handles data like components’ names, queries, data fetched from our database, .etc), sending data in each HTTP header (through browser cookies) wastes our bandwidth (as explained in this post: [https://stackoverflow.com/questions/3220660/local-storage-vs-cookies](https://stackoverflow.com/questions/3220660/local-storage-vs-cookies)). Moreover, cookies’ 4KB size limits the number of components’ positions we can save on each page (in comparison to 5MB size of localStorage per domain).
-  ⇒ Thus, we used local storage to save our components’ (x, y) positions.
-  Resource referenced: [https://javascript.plainenglish.io/3-ways-to-store-data-in-the-browser-db11c412104b](https://javascript.plainenglish.io/3-ways-to-store-data-in-the-browser-db11c412104b)
+    For session storage, data will be deleted after a session (for example, when users close their browser) ⇒ they won’t be able to see the data once they open the browser again ⇒ we discard this option.
+    Compare between using cookies and local storage:
+    Both conserve data after users open a new tab or close their browser windows. Since we only save the components’ (x, y) positions, which will only be helpful for the client (Assuming that the server only handles data like components’ names, queries, data fetched from our database, .etc), sending data in each HTTP header (through browser cookies) wastes our bandwidth (as explained in this post: [https://stackoverflow.com/questions/3220660/local-storage-vs-cookies](https://stackoverflow.com/questions/3220660/local-storage-vs-cookies)). Moreover, cookies’ 4KB size limits the number of components’ positions we can save on each page (in comparison to 5MB size of localStorage per domain).
+    ⇒ Thus, we used local storage to save our components’ (x, y) positions.
+    Resource referenced: [https://javascript.plainenglish.io/3-ways-to-store-data-in-the-browser-db11c412104b](https://javascript.plainenglish.io/3-ways-to-store-data-in-the-browser-db11c412104b)
+
+- How can we structure it so that it’s easy to add a new component?
+
+  Answer: As shown in the code, I implemented a [Dragbox component](https://github.com/petercrackthecode/retool-takehome/blob/9f2e6a26124ce9cee163e780fec2834a54f0fc5c/app/src/components/Dragbox.jsx#L7) to wrap around any component to share common properties & functionalities to them (draggability, drag boundary, saved position on page reload, triggering inspector and passing props). If we want to create a new component with those functionalities and properties, we can simply wrap them around `<Dragbox></Dragbox>`. Also, the [`addNewComponent` function](https://github.com/petercrackthecode/retool-takehome/blob/9f2e6a26124ce9cee163e780fec2834a54f0fc5c/app/src/Editor.js#L198) adds shared and unique components' properties once users create a new one.
+
+- What happens when a user resizes the screen to be smaller?
+
+  Answer: The components are resized based on the new screen's width and height by the [`updateComponentsSize` function](https://github.com/petercrackthecode/retool-takehome/blob/9f2e6a26124ce9cee163e780fec2834a54f0fc5c/app/src/Editor.js#L138). The function is triggered once users resize the window because we added an Event Listener with the `updateComponentsSize` function to it (https://github.com/petercrackthecode/retool-takehome/blob/9f2e6a26124ce9cee163e780fec2834a54f0fc5c/app/src/Editor.js#L164).
+
+### Total time spent
+
+- 14 hours 6 minutes.
 
 ### Known Issues
 
-- While components align vertically, they don’t perfectly align horizontally. This issue is caused because new components are added at random y positions (they are all added at `x: 0` position, so they align vertically). This should be fixed by a function that returns a new pair of position `(x, y)` available that we can place a new component at on the canvas.
+- While components align vertically, they don’t perfectly align horizontally. This issue is caused because new components are added at random y positions (they are all added at `x: 0` position, so they align vertically). This should be fixed by a function that returns a new pair of available position `(x, y)` that we can place a new component at on the canvas.
 - The polka-dot visual guide don’t correctly represent our grid yet.
 - Resize the screen width should also resize the position of the component dynamically.
 - Components’ y position may be scooted to the top of the screen when intersects with other components.
